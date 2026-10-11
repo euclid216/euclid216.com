@@ -85,9 +85,8 @@ main{position:relative;z-index:2;min-height:100svh;display:grid;grid-template-ro
     const cu=document.getElementById('cube'); [...cu.querySelectorAll('circle')].forEach(c=>c.remove());
     const n=6,s=24,ox=150,oy=180,litLayers=6*(S.online/S.of);
     const iso=(x,y,z)=>[ox+(x-y)*s*0.866, oy+(x+y)*s*0.5 - z*s];
-    const cells=[];for(let z=0;z<n;z++)for(let y=0;y<n;y++)for(let x=0;x<n;x++){if(x===n-1||y===n-1||z===n-1||x===0||y===0||z===0)cells.push([x,y,z]);}
-    cells.sort((a,b)=>(a[0]+a[1]+a[2])-(b[0]+b[1]+b[2]));
-    for(const [x,y,z] of cells){const [cx,cy]=iso(x,y,z);const lit=z<Math.floor(litLayers)||(z===Math.floor(litLayers)&&((x*7+y*3)%10)/10<(litLayers%1));
+    const cells=[];for(let z=0;z<n;z++)for(let y=0;y<n;y++)for(let x=0;x<n;x++){if(x===n-1||y===n-1||z===n-1)cells.push([x,y,z]);}
+    const pts=cells.map(([x,y,z])=>{const [cx,cy]=iso(x,y,z);return {cx,cy};}).sort((a,b)=>b.cy-a.cy||a.cx-b.cx);const nLit=Math.round(pts.length*(litLayers/6));for(let i=0;i<pts.length;i++){const {cx,cy}=pts[i];const lit=i<nLit;
       const c=mk('circle',{cx,cy,r:lit?5.2:3.6,fill:lit?'#3ee0a0':'#2a3137'},cu);if(lit)c.setAttribute('filter','url(#glow)');}
     // ---- wall
     const svg=document.getElementById('wall'); svg.innerHTML='';
