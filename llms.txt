@@ -3,4 +3,3 @@
 > Built for agents, coming online soon.
 
 Status: https://euclid216.com/status.json
-Contact: hello@euclid216.com
